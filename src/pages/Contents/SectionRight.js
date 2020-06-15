@@ -1,13 +1,23 @@
 import React, { Component, useState, useEffect } from "react";
+import SaveBallon from "../../components/Ballon/SaveBallon";
+import ToolBallon from "../../components/Ballon/ToolBallon";
+import FollowBallon from "../../components/Ballon/FollowBallon";
 import styled from "styled-components";
 
-const SectionRight = () => {
+const SectionRight = ({data, owner}) => {
+
+  const [sb, setSb] = useState(false);
+  const [tb, setTb] = useState(false);
+  const [fb, setFb] = useState(false);
+
+  console.log(sb)
+
   return (
     <>
       <RightWrap>
-        <IconWrap>
+        <IconWrap onMouseOver={()=>setFb(true)} onMouseLeave={()=>setFb(false)}>
           <Imglink>
-            <Img src="https://mir-s3-cdn-cf.behance.net/user/115/533432.53aee1f322054.jpg" alt="작가얼굴" />
+            <Img src={owner.profile_img} alt="작가얼굴" />
           </Imglink>
           <PlusIcon>
             <PlusLink>
@@ -17,31 +27,34 @@ const SectionRight = () => {
             </PlusLink>
           </PlusIcon>
           <TextWrap>
-            <Text>팔로우</Text>
+            <Text>Follow</Text>
           </TextWrap>
         </IconWrap>
-        <IconWrap>
+        <FollowBallon fb={fb} owner={owner} data={data}/>
+        <IconWrap onMouseOver={()=>setTb(true)} onMouseLeave={()=>setTb(false)}>
           <Imglink>
-            <ToolImg src="https://a5.behance.net/2e796aca58be68ce0d54b6d36470946c2a093271/img/project/tools/1x/photoshop.png" alt="Tool" />
+            <ToolImg src={data.img_tool} alt="Tool" />
           </Imglink>
           <TextWrap>
-            <Text>툴</Text>
-          </TextWrap>
+            <Text>Tools</Text>
+          </TextWrap>     
         </IconWrap>
-        <IconWrap>
+        <ToolBallon tb={tb} owner={owner} data={data}/>
+        <IconWrap onMouseOver={()=>setSb(true)} onMouseLeave={()=>setSb(false)}>
           <Imglink>
           <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 17 17" class="Collection-icon-1ub Project-icon-29I"><path d="M5.69,3.395,7.97,5.487h6.217V7.579H2.858V3.743a.351.351,0,0,1,.354-.349ZM5.69,2H3.212a1.757,1.757,0,0,0-1.77,1.743V7.579h-1a.356.356,0,0,0-.27.123A.345.345,0,0,0,.1,7.985L1.336,14.68a.705.705,0,0,0,.7.572H15.012a.705.705,0,0,0,.7-.572L16.95,7.985a.345.345,0,0,0-.079-.283.356.356,0,0,0-.27-.123h-1V4.789a.7.7,0,0,0-.708-.7H8.523L6.859,2.514A1.657,1.657,0,0,0,5.69,2Z" transform="translate(-0.023 -0.5)"></path></svg>
           </Imglink>
-          <TextWrap>
-            <Text>저장</Text>
+          <TextWrap >
+            <Text>Save</Text>
           </TextWrap>
         </IconWrap>
+        <SaveBallon sb={sb}/>
         <IconWrap>
           <LImglink>
           <svg xmlns="http://www.w3.org/2000/svg" fill= "#fff" width="16" height="16" viewBox="0.5 0.5 16 16" class="Appreciations-icon-2NG Appreciate-icon-2yw Project-toolsSidebarAppreciateThumb-2j6"><path fill="none" d="M.5.5h16v16H.5z"></path><path d="M.5 7.5h3v8h-3zM7.207 15.207c.193.19.425.29.677.293H12c.256 0 .512-.098.707-.293l2.5-2.5c.19-.19.288-.457.293-.707V8.5c0-.553-.445-1-1-1h-5L11 5s.5-.792.5-1.5v-1c0-.553-.447-1-1-1l-1 2-4 4v6l1.707 1.707z"></path></svg>
           </LImglink>
           <TextWrap>
-            <Text>평가</Text>
+            <Text>Like</Text>
           </TextWrap>
         </IconWrap>
       </RightWrap>
@@ -60,7 +73,6 @@ const RightWrap = styled.div`
     transform: translateX(20px);
     transition: opacity 0.15s linear;
     will-change: opacity;
-    width: 45px;
     border: 0;
     font-size: 100%;
     margin: 0;
@@ -68,16 +80,22 @@ const RightWrap = styled.div`
     padding: 0;
     color: #2b2b2b;
     line-height: 1.3;
+    z-index: 10;
 `;
+//width: 45px;
 
 const IconWrap = styled.div`
     align-self: flex-start;
-    
     -webkit-box-pack: center;
     justify-content: center;
     margin-bottom: -6px;
     padding-bottom: 6px;
     position: relative;
+    cursor: pointer;
+    &:hover {
+    filter: brightness(70%);
+    transition: all 0.3s ease-in-out;
+  }
 `;
 
 const Imglink = styled.a `
@@ -138,7 +156,7 @@ const TextWrap = styled.div `
     margin-bottom: 25px;
     pointer-events: all;
     text-align: center;
-`;
+`
 
 const Text = styled.label `
     font-weight: bold;

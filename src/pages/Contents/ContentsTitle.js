@@ -1,18 +1,18 @@
 import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
 
-const ContentsTitle = () => {
+const ContentsTitle = ({data, owner}) => {
   return (
     <TitleWrap>
         <Pimg>
-          <Img src="https://mir-s3-cdn-cf.behance.net/user/115/533432.53aee1f322054.jpg" />
+          <Img src={owner.profile_img} />
         </Pimg>
       <Introduce>
-        <WorkName>쉽지않다.Not Easy</WorkName>
+        <WorkName>{data.title}</WorkName>
         <AuthorInt>
-          <Name>Mokyoungg</Name>
+            <Name>{owner.fullname}</Name>
           <Dot>.</Dot>
-          <Additional>팔로우</Additional>
+          <Additional>Follow</Additional>
         </AuthorInt>
       </Introduce>
     </TitleWrap>
@@ -56,6 +56,10 @@ const Pimg = styled.div`
   overflow: hidden;
   cursor: pointer;
   text-decoration: none;
+  &:hover {
+    filter: brightness(70%);
+    transition: all 0.3s ease-in-out;
+  }
 `;
 
 const Img = styled.img `
