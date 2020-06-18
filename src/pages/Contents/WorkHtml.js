@@ -1,4 +1,3 @@
-
 export const HTML = `<!----><div class="Project-projectModuleContainer-2q2 Preview__project--topMargin qa-project-module-container"><div class="Module-module-35g root"><div data-ut="root" class="js-project-module js-project-module--image project-module module image project-module-image image-full project-module-image-full Image-root-1tO"><div class="js-project-lightbox-link project-module-image-inner-wrap lightbox-link"><div><!----><div class="v-portal" style="display:none;"></div><!----><div class="v-portal" style="display:none;"></div></div><div><script type="text/html" class="js-lightbox-slide-content">
     <div class="project-lightbox-image-container qa-lightbox-img-container">
       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/fs/8f474398314265.5ed93d1d93ab6.jpg" srcset="https://mir-s3-cdn-cf.behance.net/project_modules/disp/8f474398314265.5ed93d1d93ab6.jpg 600w,https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/8f474398314265.5ed93d1d93ab6.jpg 1200w,https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/8f474398314265.5ed93d1d93ab6.jpg 1400w,https://mir-s3-cdn-cf.behance.net/project_modules/fs/8f474398314265.5ed93d1d93ab6.jpg 1400w," sizes="(max-width: 1400px) 100vw, 1400px">
@@ -1797,4 +1796,4 @@ export const HTML = `<!----><div class="Project-projectModuleContainer-2q2 Previ
         </div>
     </div>
   </script>
-  </div>`
+  </div>`;

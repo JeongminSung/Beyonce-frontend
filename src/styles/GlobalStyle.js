@@ -28,7 +28,7 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
         border: 0;
         font-size: 100%;
-        font-family: Heebo,"Noto Sans KR", sans-serif;
+        font-family: 'Heebo', sans-serif;
         vertical-align: baseline;
     }
     body {

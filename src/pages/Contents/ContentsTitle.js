@@ -4,9 +4,9 @@ import styled from "styled-components";
 const ContentsTitle = () => {
   return (
     <TitleWrap>
-        <Pimg>
-          <Img src="https://mir-s3-cdn-cf.behance.net/user/115/533432.53aee1f322054.jpg" />
-        </Pimg>
+      <Pimg>
+        <Img src="https://mir-s3-cdn-cf.behance.net/user/115/533432.53aee1f322054.jpg" />
+      </Pimg>
       <Introduce>
         <WorkName>쉽지않다.Not Easy</WorkName>
         <AuthorInt>
@@ -58,12 +58,12 @@ const Pimg = styled.div`
   text-decoration: none;
 `;
 
-const Img = styled.img `
-    border-radius: inherit;
-    display: block;
-    width: 100%;
-    height: 100%;
-`
+const Img = styled.img`
+  border-radius: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+`;
 
 const Introduce = styled.div`
   margin: -2px 0 0 10px;

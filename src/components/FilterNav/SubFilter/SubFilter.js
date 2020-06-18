@@ -24,8 +24,10 @@ function SubFilter() {
   // }
 
   const loadSubFilter = async () => {
-    // const response = await fetch("http://10.58.3.78:8000/feed/main/0?limit=12&offset=0");
-    const response = await fetch("http://localhost:3000/Data/MainList.json");
+    const response = await fetch(
+      "http://10.58.3.78:8000/feed/main/0?limit=12&offset=0"
+    );
+    // const response = await fetch("http://localhost:3000/Data/MainList.json");
     const filters = await response.json();
     setSubFilterList(filters.data.main_categories.slice(0, 5));
   };

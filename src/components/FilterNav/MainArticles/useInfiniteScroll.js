@@ -24,7 +24,7 @@ const useInfiniteScroll = (callback) => {
   function handleScroll() {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight ||
+        document.documentElement.offsetHeight ||
       isFetching
     )
       return;
