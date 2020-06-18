@@ -1,10 +1,21 @@
 import React, { Component, useState, useEffect } from "react";
 import styled from "styled-components";
-import { HTML } from "./WorkHtml";
 
-const Work = () => {
+const Work = ({ data }) => {
+  const [HTML, setHTML] = useState();
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setHTML(data.content);
+    }
+  });
+
   const createMarkup = () => {
-    return { __html: HTML };
+    if (HTML) {
+      return {
+        __html: HTML.split("\\n").join("").split("\\xc2\\xa8").join(""),
+      };
+    }
   };
 
   return (
@@ -29,4 +40,5 @@ const WorkWrap = styled.div`
   width: 100%;
   margin: 0 auto;
   background: #fff;
+  overflow: hidden;
 `;

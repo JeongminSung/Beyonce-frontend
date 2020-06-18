@@ -1,16 +1,30 @@
 import React, { Component, useState, useEffect } from "react";
+import SaveBallon from "../../components/Ballon/SaveBallon";
+import ToolBallon from "../../components/Ballon/ToolBallon";
+import FollowBallon from "../../components/Ballon/FollowBallon";
 import styled from "styled-components";
 
-const SectionRight = () => {
+const SectionRight = ({data, owner}) => {
+
+  const [sb, setSb] = useState(false);
+  const [tb, setTb] = useState(false);
+  const [fb, setFb] = useState(false);
+
+  console.log(sb)
+
   return (
     <>
       <RightWrap>
-        <IconWrap>
+        <IconWrap onMouseOver={()=>setFb(true)} onMouseLeave={()=>setFb(false)}>
           <Imglink>
+<<<<<<< HEAD
             <Img
               src="https://mir-s3-cdn-cf.behance.net/user/115/533432.53aee1f322054.jpg"
               alt="작가얼굴"
             />
+=======
+            <Img src={owner.profile_img} alt="작가얼굴" />
+>>>>>>> c082278... commit
           </Imglink>
           <PlusIcon>
             <PlusLink>
@@ -29,21 +43,27 @@ const SectionRight = () => {
             </PlusLink>
           </PlusIcon>
           <TextWrap>
-            <Text>팔로우</Text>
+            <Text>Follow</Text>
           </TextWrap>
         </IconWrap>
-        <IconWrap>
+        <FollowBallon fb={fb} owner={owner} data={data}/>
+        <IconWrap onMouseOver={()=>setTb(true)} onMouseLeave={()=>setTb(false)}>
           <Imglink>
+<<<<<<< HEAD
             <ToolImg
               src="https://a5.behance.net/2e796aca58be68ce0d54b6d36470946c2a093271/img/project/tools/1x/photoshop.png"
               alt="Tool"
             />
+=======
+            <ToolImg src={data.img_tool} alt="Tool" />
+>>>>>>> c082278... commit
           </Imglink>
           <TextWrap>
-            <Text>툴</Text>
-          </TextWrap>
+            <Text>Tools</Text>
+          </TextWrap>     
         </IconWrap>
-        <IconWrap>
+        <ToolBallon tb={tb} owner={owner} data={data}/>
+        <IconWrap onMouseOver={()=>setSb(true)} onMouseLeave={()=>setSb(false)}>
           <Imglink>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,10 +78,11 @@ const SectionRight = () => {
               ></path>
             </svg>
           </Imglink>
-          <TextWrap>
-            <Text>저장</Text>
+          <TextWrap >
+            <Text>Save</Text>
           </TextWrap>
         </IconWrap>
+        <SaveBallon sb={sb}/>
         <IconWrap>
           <LImglink>
             <svg
@@ -77,7 +98,7 @@ const SectionRight = () => {
             </svg>
           </LImglink>
           <TextWrap>
-            <Text>평가</Text>
+            <Text>Like</Text>
           </TextWrap>
         </IconWrap>
       </RightWrap>
@@ -89,31 +110,37 @@ const SectionRight = () => {
 export default SectionRight;
 
 const RightWrap = styled.div`
-  top: 143px;
-  margin-left: 25px;
-  margin-right: -50px;
-  position: sticky;
-  transform: translateX(20px);
-  transition: opacity 0.15s linear;
-  will-change: opacity;
-  width: 45px;
-  border: 0;
-  font-size: 100%;
-  margin: 0;
-  outline: 0;
-  padding: 0;
-  color: #2b2b2b;
-  line-height: 1.3;
+    top: 143px;
+    margin-left: 25px;
+    margin-right: -50px;
+    position: sticky;
+    transform: translateX(20px);
+    transition: opacity 0.15s linear;
+    will-change: opacity;
+    border: 0;
+    font-size: 100%;
+    margin: 0;
+    outline: 0;
+    padding: 0;
+    color: #2b2b2b;
+    line-height: 1.3;
+    z-index: 10;
 `;
+//width: 45px;
 
 const IconWrap = styled.div`
-  align-self: flex-start;
+    align-self: flex-start;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-bottom: -6px;
+    padding-bottom: 6px;
+    position: relative;
+    cursor: pointer;
+    &:hover {
+    filter: brightness(70%);
+    transition: all 0.3s ease-in-out;
+  }
 
-  -webkit-box-pack: center;
-  justify-content: center;
-  margin-bottom: -6px;
-  padding-bottom: 6px;
-  position: relative;
 `;
 
 const Imglink = styled.a`
@@ -162,19 +189,20 @@ const PlusLink = styled.a`
   fill: #fff;
 `;
 
-const TextWrap = styled.div`
-  margin-top: 13px;
-  color: #959595;
-  cursor: pointer;
-  display: flex;
-  font-size: 11px;
-  font-weight: bold;
-  -webkit-box-pack: center;
-  justify-content: center;
-  margin-bottom: 25px;
-  pointer-events: all;
-  text-align: center;
-`;
+
+const TextWrap = styled.div `
+    margin-top: 13px;
+    color: #959595;
+    cursor: pointer;
+    display: flex;
+    font-size: 11px;
+    font-weight: bold;
+    -webkit-box-pack: center;
+    justify-content: center;
+    margin-bottom: 25px;
+    pointer-events: all;
+    text-align: center;
+`
 
 const Text = styled.label`
   font-weight: bold;
@@ -187,20 +215,20 @@ const ToolImg = styled.img`
   height: 100%;
 `;
 
-const LImglink = styled.div`
-  height: 45px;
-  width: 45px;
-  min-height: 45px;
-  min-width: 45px;
-  backface-visibility: hidden;
-  background-color: #fff;
-  border-radius: 50%;
-  box-sizing: content-box !important;
-  display: block;
-  line-height: 0;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: #0057ff;
-`;
+const LImglink = styled.div `
+    height: 45px;
+    width: 45px;
+    min-height: 45px;
+    min-width: 45px;
+    backface-visibility: hidden;
+    background-color: #fff;
+    border-radius: 50%;
+    box-sizing: content-box !important;
+    display: block;
+    line-height: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0057ff;
+`
