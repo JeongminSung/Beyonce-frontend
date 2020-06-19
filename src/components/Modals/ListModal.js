@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 const ListModal = ({ isOpen, close }) => {
-
   const [filterList, setFilterList] = useState([]);
 
   useEffect(() => {
@@ -11,11 +10,12 @@ const ListModal = ({ isOpen, close }) => {
 
   //navList fetch
   const loadFilterList = async () => {
-    const response = await fetch("http://10.58.4.193:8000/feed/main/0");
+    const response = await fetch(
+      "http://10.58.3.78:8000/feed/main/0?limit=12&offset=0"
+    );
     const list = await response.json();
     setFilterList(list.data.main_categories);
   };
-
 
   return (
     <React.Fragment>
@@ -25,9 +25,7 @@ const ListModal = ({ isOpen, close }) => {
           <ModalBlock>
             <ModalBox>
               <ModalWrapper>
-                <ModalTitle>
-                  Galleries by top creative fields
-                </ModalTitle>
+                <ModalTitle>Galleries by top creative fields</ModalTitle>
                 <ModalListBox>
                   {filterList.map((el, idx) => (
                     <Link to="/" key={idx}>
@@ -88,7 +86,7 @@ const FilterImg = styled.img`
 
 const ListTitle = styled.h3`
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
   color: #fff;
   line-height: 1.1;
   text-shadow: 0 1px 0 ${(props) => props.theme.colors.mainBlack};

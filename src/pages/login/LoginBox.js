@@ -5,18 +5,18 @@ import styled from "styled-components";
 //window.Kakao.init("82cf7f6d0018709360917a198e3ec3f7");
 
 const LoginBox = ({ history }) => {
-  const [token, setToken] = useState("")
+  const [token, setToken] = useState("");
 
   const loginWithKakao = () => {
     window.Kakao.Auth.login({
       success: (authObj) => {
         console.log(authObj);
         //setToken(authObj.access_token) 비동기로, 이를 사용하면 바로 이동하지 못함.
-        fetch("http://10.58.4.193:8000/user/social_login", {
+        fetch("http://10.58.3.78:8000/user/social_login", {
           method: "POST",
           headers: {
-            "Authorization": authObj.access_token
-          }
+            Authorization: authObj.access_token,
+          },
         })
           .then((res) => res.json())
           .then((res) => {
@@ -25,14 +25,14 @@ const LoginBox = ({ history }) => {
               alert("로그인 되었습니다.");
               history.push("/");
             } else {
-              alert("다시 확인해주세요.")
+              alert("다시 확인해주세요.");
             }
-          })
+          });
       },
       fail: function (err) {
         console.log("에러", err);
       },
-    })
+    });
   };
 
   return (

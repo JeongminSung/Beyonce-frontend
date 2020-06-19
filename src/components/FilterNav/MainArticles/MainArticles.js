@@ -1,124 +1,114 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-// import useInfiniteScroll from "./useInfiniteScroll";
-import { CircularProgress } from '@material-ui/core';
-import { Link, withRouter } from "react-router-dom";
+import { CircularProgress } from "@material-ui/core";
+import { withRouter } from "react-router-dom";
+import BlueButton from "../../Button/Button";
 
-const MainArticles = ({ history, match }) => {
-  /**필터 어떻게 하지?
-   * 1. 카테고리를 클릭/ 가운데로 왔을 때 해당 id 값을 state에 저장하기
-   * 2. mainArticle 안에서 state를 데이터 안에 이름으로 바꾸고
-   * 3. 해당 state가 카테고리 클릭한 값으로 유동적으로 변화하면 
-   * 4. map 안에 들어간 el 값을 바꾸어주기
-   * 5. 어떻게? : 애초에 fetch를 할 때 .data.[유동적state값] 으로 바꾸어 주면 될듯
-   * 6. 그럼 map 안의 데이터들이 깊게 들어갈 필요 없에서 윗단계에서 처리 가능할듯
-   */
-
-  //   <>
-  //     <ProfileName>{el.owners}</ProfileName>
-  //     <span className="material-icons"
-  //       style={{ 'fontSize': '17px' }}>
-  //       arrow_drop_down
-  //     </span>
-  //   </>
-  // )
-
+const MainArticles = ({ history, clickFilter }) => {
+  const [titles, setTitles] = useState([]);
   const [articleList, setArticleList] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [nextOffset, setNextOffset] = useState(0);
   const [isFetching, setIsFetching] = useState(false);
-
+  const [offset, setOffset] = useState(0);
   const LIMIT = 12;
-  // const nextOffset = LIMIT + offset;
 
   useEffect(() => {
-    fetchMoreListItems();
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    getData();
+  }, [clickFilter]);
 
-  useEffect(() => {
-    if (!isFetching) return;
-  }, [isFetching]);
-
-  function handleScroll() {
+  const handleScroll = () => {
     if (
       window.innerHeight + document.documentElement.scrollTop !==
-      document.documentElement.offsetHeight)
+      document.documentElement.offsetHeight
+    ) {
+      setIsFetching(true);
       return;
-    setIsFetching(true);
-  }
-  /**useEffect -> 들어오는 id값들(url에서) match.params.id 를 [] 안에 넣고 
-   * 저기서 새로 fatch를 부름 . 바뀔때마다 저런 함수를 부름
-   */
+    }
+  };
 
-  const fetchMoreListItems = async () => {
-    // const response = await fetch(`http://10.58.3.78:8000/feed/main/0?`);
-    const response = await fetch(`http://localhost:3000/Data/MainList.json`);
-    //console.log("주소, ", `http://localhost:3000/Data/MainList.json`);
-    // const response = await fetch(`http://10.58.3.78:8000/feed/main/0?limit=${LIMIT}&offset=${nextOffset}`);
+  useEffect(() => {
+    if (isFetching) {
+      setOffset(LIMIT + offset);
+      getData();
+    } else {
+      return;
+    }
+  }, [isFetching]);
+
+  const getData = async () => {
+    const response = await fetch(
+      `http://10.58.3.78:8000/feed/main/${clickFilter}?limit=${LIMIT}&offset=${offset}`
+    );
     const list = await response.json();
 
-    // setArticleList([...articleList, ...list.data.feeds]);
-    setArticleList(list.data.feeds);
-    //배열 더하기는 ...배열끼리 더하는것
-    setOffset(nextOffset);
-    setNextOffset(LIMIT + offset);
+    setArticleList([...articleList, ...list.data.feeds]);
+    setTitles(list.data);
     setIsFetching(false);
-  }
-  // const [isFetching, setIsFetching] = useInfiniteScroll(fetchMoreListItems);
+  };
 
   return (
     <>
-      {/* {console.log("articleList: ", articleList[0])} */}
-      <SerchTooltipBox>
-        <Pointer />
-        <SerchTooltip>
-          <ArticleProfileBox>
-            <ProfileImg />
-            <ProfileName>textName</ProfileName>
-          </ArticleProfileBox>
-        </SerchTooltip>
-      </SerchTooltipBox>
-
-
-      < MainArticlesBlock >
-        {
-          articleList.length > 0 && articleList.map((el) => (
-            <ArticleBox key={el.id} >
+      <ListTitleBlock>
+        <ListTitleBox>
+          <ListTitle>{titles.field}</ListTitle>
+          <ListDesc>{titles.description}</ListDesc>
+          <ButtonBox>
+            <ButtonStyleBox>
+              {titles.field === "Best of Behance" ? null : (
+                <BlueButton text={`Follow ${titles.field}`} />
+              )}
+            </ButtonStyleBox>
+          </ButtonBox>
+        </ListTitleBox>
+      </ListTitleBlock>
+      <MainArticlesBlock>
+        {articleList.length > 0 &&
+          articleList.map((el, idx) => (
+            <ArticleBox key={idx}>
               <ArticleLists>
-                <ArticleListsBox background={el.background} onClick={() => history.push("/contents")}>
+                <ArticleListsBox
+                  background={el.background}
+                  onClick={() => history.push("/contents")}
+                >
                   <ImgOverlay>
-                    <ProjectTitle>{el.name}</ProjectTitle>
+                    <ProjectTitle>{el.title}</ProjectTitle>
                   </ImgOverlay>
                   <ArticleImg src={el.cover_img} />
                 </ArticleListsBox>
                 <ArticleSubBox>
                   <ArticleProfileBox>
-                    {/* {el.owners &&
-                      el.owners.length === 1 ?
-                      (
-                        <>
-                          <ProfileImg src={el.owners[0].profile_img} />
-                          <ProfileName>{el.owners[0].fullname}</ProfileName>
-                        </>
-                      ) :
-                      el.owners.length !== 0 && el.owners.length > 1 ?
-                        (
-                          el.owners.map((pro, index) => (
-                            <>
-                              <ProfileImg key={index} src={pro.profile_img} />
-                              <ProfileName>{pro.fullname}</ProfileName>
-                            </>
-                          )
-                          )
-                        ) : (
-                          <>
-                            <ProfileImg key={idx} src={""} />
-                            <ProfileName></ProfileName>
-                          </>
-                        )}
-                      } */}
+                    {el.owners && el.owners.length === 1 ? (
+                      <>
+                        <ProfileImg src={el.owners[0].profile_img} />
+                        <ProfileName>{el.owners[0].name}</ProfileName>
+                      </>
+                    ) : el.owners.length !== 0 && el.owners.length > 1 ? (
+                      <>
+                        <ProfileName>Multiple Owners</ProfileName>
+                        <span
+                          className="material-icons"
+                          style={{ fontSize: "17px" }}
+                        >
+                          arrow_drop_down
+                        </span>
+                        <ManyOwnersDiv>
+                          <Pointer />
+                          <OwnersTip>
+                            {el.owners.map((pro, idx) => (
+                              <OwnersBox key={idx}>
+                                <ProfileImg2 src={pro.profile_img} />
+                                <ProfileName2>{pro.name}</ProfileName2>
+                              </OwnersBox>
+                            ))}
+                          </OwnersTip>
+                        </ManyOwnersDiv>
+                      </>
+                    ) : (
+                      <>
+                        <ProfileImg src={""} />
+                        <ProfileName>{el.name}</ProfileName>
+                      </>
+                    )}
                   </ArticleProfileBox>
                   <LikeViewBox>
                     <LickViewWrapper>
@@ -134,8 +124,10 @@ const MainArticles = ({ history, match }) => {
                       {Number(el.like) <= 1000 ? (
                         <LikeViewText>{Number(el.like)}</LikeViewText>
                       ) : (
-                          <LikeViewText>{(Number(el.like) / 1000).toFixed(0) + "k"}</LikeViewText>
-                        )}
+                        <LikeViewText>
+                          {(Number(el.like) / 1000).toFixed(0) + "k"}
+                        </LikeViewText>
+                      )}
                     </LickViewWrapper>
                     <LickViewWrapper>
                       <svg
@@ -149,42 +141,84 @@ const MainArticles = ({ history, match }) => {
                       {Number(el.view) <= 1000 ? (
                         <LikeViewText>{Number(el.view)}</LikeViewText>
                       ) : (
-                          <LikeViewText>{(Number(el.view) / 1000).toFixed(0) + "k"}</LikeViewText>
-                        )}
+                        <LikeViewText>
+                          {(Number(el.view) / 1000).toFixed(0) + "k"}
+                        </LikeViewText>
+                      )}
                     </LickViewWrapper>
                   </LikeViewBox>
                 </ArticleSubBox>
               </ArticleLists>
             </ArticleBox>
-          ))
-        }
-      </MainArticlesBlock >
+          ))}
+      </MainArticlesBlock>
 
-      {
-        isFetching && (
-          < ProgressBox >
-            <CircularProgress style={{ 'color': '#0057FF' }} />
-          </ProgressBox>)
-      }
+      {isFetching && (
+        <ProgressBox>
+          <CircularProgress style={{ color: "#0057FF" }} />
+        </ProgressBox>
+      )}
     </>
   );
-}
+};
 
-const SerchTooltipBox = styled.div`
-  opacity: 1;
-  z-index: 10;
-  visibility: visible;
+const ListTitleBlock = styled.div`
+  width: 100%;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  user-select: text;
+  display: flex;
+`;
+const ListTitleBox = styled.div`
+  margin: 40px 40px 60px;
+  text-align: center;
+`;
+const ListTitle = styled.h1`
+  font-size: 70px;
+  font-weight: 900;
+  line-height: 0.9;
+  margin: 0 0 15px;
+`;
+const ListDesc = styled.h2`
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 auto;
+  max-width: 800px;
+`;
+
+const ButtonBox = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+`;
+
+const ButtonStyleBox = styled.div`
+  margin: 0 3px;
+`;
+
+const ManyOwnersDiv = styled.div`
+  opacity: 0;
+  z-index: 7;
+  visibility: none;
   color: ${(props) => props.theme.colors.mainGray};
   transform: translateX(-50%);
   transition: visibility 0.25s linear, opacity 0.25s linear;
   background-color: #fff;
-  top: 90%;
-  left: 6%;
+  top: 100%;
+  left: 70%;
   position: absolute;
   border-radius: 3px;
   font-weight: 900;
 `;
 
+const ProfileName = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+`;
 const Pointer = styled.div`
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
@@ -194,16 +228,53 @@ const Pointer = styled.div`
   transform: translateX(-50%);
   width: 0;
   position: absolute;
-  top: -8px;
+  top: -4px;
   right: auto;
-  left: 80%;
+  left: 66%;
 `;
 
-const SerchTooltip = styled.div`
+const OwnersTip = styled.div`
   box-shadow: 0 2px 8px rgba(25, 25, 25, 0.3);
   padding: 10px 10px 8px 10px;
   text-align: center;
   white-space: nowrap;
+`;
+
+const ProfileImg = styled.img`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: filter 0.1s linear;
+  border-radius: 50%;
+`;
+
+const ProfileImg2 = styled.img`
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  margin-right: 5px;
+  transition: filter 0.1s linear;
+  border-radius: 50%;
+  &:hover {
+    filter: brightness(80%);
+    transition: all 0.1s linear;
+  }
+`;
+const ProfileName2 = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.2;
+  &:hover {
+    text-decoration: underline;
+    transition: all 0.1s linear;
+  }
+`;
+
+const OwnersBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
 `;
 
 /////////////////////////////////
@@ -222,7 +293,7 @@ const ProgressBox = styled.div`
 
 const MainArticlesBlock = styled.div`
   width: 100%;
-  padding: 0 25px;
+  padding: 0 25px 40px 25px;
   position: relative;
   margin: 0 auto;
   display: grid;
@@ -290,7 +361,7 @@ const ArticleListsBox = styled.div`
   background-color: ${(props) => props.background};
 
   &:hover ${ImgOverlay} {
-          opacity: 1;
+    opacity: 1;
     transition: opacity 0.15s linear;
   }
 `;
@@ -300,21 +371,6 @@ const ArticleSubBox = styled.div`
   display: flex;
   justify-content: space-between;
   min-height: 45px;
-`;
-
-const ProfileImg = styled.img`
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-  margin-right: 5px;
-  transition: filter 0.1s linear;
-  border-radius: 50%;
-`;
-
-const ProfileName = styled.span`
-  font-size: 12px;
-  font-weight: 800;
-  line-height: 1.2;
 `;
 
 const ArticleProfileBox = styled.div`
@@ -332,6 +388,10 @@ const ArticleProfileBox = styled.div`
   &:hover ${ProfileName} {
     text-decoration: underline;
     transition: all 0.1s linear;
+  }
+  &:hover ${ManyOwnersDiv} {
+    opacity: 1;
+    visibility: visible;
   }
 `;
 

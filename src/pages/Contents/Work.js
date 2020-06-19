@@ -3,14 +3,13 @@ import styled from "styled-components";
 import { HTML } from "./WorkHtml";
 
 const Work = () => {
-
   const createMarkup = () => {
-    return {__html:  HTML }
-  }
+    return { __html: HTML };
+  };
 
   return (
     <WorkWrap>
-      <div dangerouslySetInnerHTML = {createMarkup()} />
+      <div dangerouslySetInnerHTML={createMarkup()} />
     </WorkWrap>
   );
 };

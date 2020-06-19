@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SubFilter from "./SubFilter/SubFilter";
-import ListTitles from "./ListTitles/ListTitles";
 import MainArticles from "./MainArticles/MainArticles";
 import ListModal from "../Modals/ListModal";
 
@@ -10,8 +9,8 @@ function FilterNav({ match }) {
   //states
   const [isModalOpen, setModal] = useState(false);
   const [filterList, setFilterList] = useState([]);
-  const [clickFilter, setClickFilter] = useState([]);
   const [copyList, setCopyList] = useState([]);
+  const [clickFilter, setClickFilter] = useState(0);
   const [current, setCurrentIdx] = useState(0);
 
   //useEffects
@@ -27,14 +26,9 @@ function FilterNav({ match }) {
       // [] 빈 배열도 'true'로 친다
       setCopyList(getListItems(9, current));
     }
-  }, [filterList])
-  /**
-   * useEffect -> 변화를 감지할 인자를 두 번째로 받는다.
-   * [] -> 컴디마
-   * [뭔가 있음] -> 안에 들어있는 애를 감지해서 실행이 됨.
-   */
+  }, [filterList]);
 
-  const getItem = index => {
+  const getItem = (index) => {
     let i = index;
     while (i < 0) {
       i += filterList.length;
@@ -43,20 +37,22 @@ function FilterNav({ match }) {
       }
     }
     return filterList[i % filterList.length];
-  }
+  };
 
   const getListItems = (range = 9, index = 0) => {
     const center = Math.ceil(range / 2) - 1;
+
     return Array(range)
       .fill()
       .map((_, i) => getItem(i - center + index));
-  }
+  };
 
   //navList fetch
   const loadFilterList = async () => {
-    const response = await fetch("http://localhost:3000/Data/MainList.json");
-    // const response = await fetch("http://10.58.3.78:8000/feed/main/0?limit=12&offset=0");
-    // const response = await fetch("http://10.58.3.78:8000/feed/main/0");
+    // const response = await fetch("http://localhost:3000/Data/MainList.json");
+    const response = await fetch(
+      `http://10.58.3.78:8000/feed/main/0?limit=12&offset=0`
+    );
     const list = await response.json();
     // console.log(response);
     setFilterList(list.data.main_categories);
@@ -64,9 +60,9 @@ function FilterNav({ match }) {
   };
 
   //카테고리 클릭 필터
-  const chooseFilter = () => {
-    setClickFilter(filterList.id);
-  }
+  const chooseFilter = (idx) => {
+    setClickFilter(idx);
+  };
 
   //click functions
   const clickRight = () => {
@@ -94,7 +90,7 @@ function FilterNav({ match }) {
 
   return (
     <>
-      {console.log(copyList)}
+      {/* {console.log("clickFilter: ", clickFilter)} */}
       <FilterNavBlock>
         <SliderBtnLeft onClick={clickLeft}>
           <svg
@@ -131,18 +127,23 @@ function FilterNav({ match }) {
         </SeeAllBtn>
         <ListModal isOpen={isModalOpen} close={closeModal} />
         <FilterNavBox>
-          {copyList.length > 0 && copyList.map((el) => (
-            <Link to={`/galleries/${el.id}`} key={el.id} onClick={chooseFilter}>
-              <FilterLists>
-                <ListOverlay />
-                <ListTitle>{el.title}</ListTitle>
-                <FilterImg src={el.img} />
-              </FilterLists>
-            </Link>))}
+          {copyList.length > 0 &&
+            copyList.map((el, idx) => (
+              <Link
+                to={`/galleries/${el.id}`}
+                key={el.id}
+                onClick={() => chooseFilter(el.id)}
+              >
+                <FilterLists>
+                  <ListOverlay />
+                  <ListTitle>{el.title}</ListTitle>
+                  <FilterImg src={el.img} />
+                </FilterLists>
+              </Link>
+            ))}
         </FilterNavBox>
       </FilterNavBlock>
       <SubFilter />
-      <ListTitles />
       <MainArticles clickFilter={clickFilter} />
     </>
   );
@@ -175,6 +176,9 @@ const FilterLists = styled.li`
   &:hover ${ListOverlay} {
     opacity: 1;
   }
+  &::nth-child(4) ${ListOverlay} {
+    opacity: 1;
+  }
 `;
 
 const FilterImg = styled.img`
@@ -187,7 +191,7 @@ const FilterImg = styled.img`
 
 const ListTitle = styled.h3`
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
   color: #fff;
   line-height: 1.1;
   text-shadow: 0 1px 0 ${(props) => props.theme.colors.mainBlack};
