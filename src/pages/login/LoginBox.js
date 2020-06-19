@@ -1,12 +1,9 @@
 import React, { Component, useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
-
 //window.Kakao.init("82cf7f6d0018709360917a198e3ec3f7");
-
 const LoginBox = ({ history }) => {
   const [token, setToken] = useState("");
-
   const loginWithKakao = () => {
     window.Kakao.Auth.login({
       success: (authObj) => {

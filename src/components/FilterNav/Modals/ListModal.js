@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 const ListModal = ({ isOpen, close }) => {
   const [filterList, setFilterList] = useState([]);
 

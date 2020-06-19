@@ -14,7 +14,9 @@ const Contents = (props) => {
   const [owner, setOwner] = useState({});
 
   useEffect(() => {
-    fetch("http://10.58.3.78:8000/feed/173")
+    const num = props.match.params.id;
+    console.log(num);
+    fetch(`http://10.58.3.78:8000/feed/${num}`)
       .then((res) => res.json())
       .then((res) => {
         setData(res.data);
