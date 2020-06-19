@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom";
 import styled from "styled-components";
 import SubFilter from "./SubFilter/SubFilter";
 import MainArticles from "./MainArticles/MainArticles";
-import ListModal from "../Modals/ListModal";
+import ListModal from "./Modals/ListModal";
 
 function FilterNav({ match }) {
   //states
@@ -24,7 +24,7 @@ function FilterNav({ match }) {
     if (filterList.length > 0) {
       // 패치로 받은 리스트가 들어온걸 확인할 땐 반드시 length 비교.
       // [] 빈 배열도 'true'로 친다
-      setCopyList(getListItems(9, current));
+      setCopyList(getListItems(10, current));
     }
   }, [filterList]);
 
@@ -39,7 +39,7 @@ function FilterNav({ match }) {
     return filterList[i % filterList.length];
   };
 
-  const getListItems = (range = 9, index = 0) => {
+  const getListItems = (range = 10, index = 0) => {
     const center = Math.ceil(range / 2) - 1;
 
     return Array(range)
@@ -67,14 +67,14 @@ function FilterNav({ match }) {
   //click functions
   const clickRight = () => {
     setTimeout(() => {
-      setCopyList(getListItems(9, current - 1));
+      setCopyList(getListItems(10, current - 1));
       setCurrentIdx(current - 1);
     }, 200);
   };
 
   const clickLeft = () => {
     setTimeout(() => {
-      setCopyList(getListItems(9, current + 1));
+      setCopyList(getListItems(10, current + 1));
       setCurrentIdx(current + 1);
     }, 200);
   };
@@ -128,7 +128,7 @@ function FilterNav({ match }) {
         <ListModal isOpen={isModalOpen} close={closeModal} />
         <FilterNavBox>
           {copyList.length > 0 &&
-            copyList.map((el, idx) => (
+            copyList.map((el) => (
               <Link
                 to={`/galleries/${el.id}`}
                 key={el.id}
@@ -174,9 +174,6 @@ const FilterLists = styled.li`
   cursor: pointer;
 
   &:hover ${ListOverlay} {
-    opacity: 1;
-  }
-  &::nth-child(4) ${ListOverlay} {
     opacity: 1;
   }
 `;

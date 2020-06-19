@@ -4,16 +4,17 @@ import { CircularProgress } from "@material-ui/core";
 import { withRouter } from "react-router-dom";
 import BlueButton from "../../Button/Button";
 
-const MainArticles = ({ history, clickFilter }) => {
+const MainArticles = ({ history, clickFilter, match }) => {
   const [titles, setTitles] = useState([]);
   const [articleList, setArticleList] = useState([]);
   const [isFetching, setIsFetching] = useState(false);
   const [offset, setOffset] = useState(0);
+  const [hoverId, setHoverId] = useState(0);
   const LIMIT = 12;
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
     getData();
+    window.addEventListener("scroll", handleScroll);
   }, [clickFilter]);
 
   const handleScroll = () => {
@@ -27,7 +28,7 @@ const MainArticles = ({ history, clickFilter }) => {
   };
 
   useEffect(() => {
-    if (isFetching) {
+    if (isFetching && offset < 157) {
       setOffset(LIMIT + offset);
       getData();
     } else {
@@ -46,8 +47,13 @@ const MainArticles = ({ history, clickFilter }) => {
     setIsFetching(false);
   };
 
+  const boxEnter = (idx) => {
+    setHoverId(idx);
+  };
+
   return (
     <>
+      {/* {console.log("hoverId", hoverId)} */}
       <ListTitleBlock>
         <ListTitleBox>
           <ListTitle>{titles.field}</ListTitle>
@@ -64,11 +70,11 @@ const MainArticles = ({ history, clickFilter }) => {
       <MainArticlesBlock>
         {articleList.length > 0 &&
           articleList.map((el, idx) => (
-            <ArticleBox key={idx}>
+            <ArticleBox key={idx} onMouseEnter={() => boxEnter(el.id)}>
               <ArticleLists>
                 <ArticleListsBox
                   background={el.background}
-                  onClick={() => history.push("/contents")}
+                  onClick={() => history.push(`/contents/${hoverId}`)}
                 >
                   <ImgOverlay>
                     <ProjectTitle>{el.title}</ProjectTitle>
@@ -77,7 +83,7 @@ const MainArticles = ({ history, clickFilter }) => {
                 </ArticleListsBox>
                 <ArticleSubBox>
                   <ArticleProfileBox>
-                    {el.owners && el.owners.length === 1 ? (
+                    {!el.owners ? null : el.owners && el.owners.length === 1 ? (
                       <>
                         <ProfileImg src={el.owners[0].profile_img} />
                         <ProfileName>{el.owners[0].name}</ProfileName>
@@ -201,7 +207,7 @@ const ButtonStyleBox = styled.div`
 
 const ManyOwnersDiv = styled.div`
   opacity: 0;
-  z-index: 7;
+  z-index: 5;
   visibility: none;
   color: ${(props) => props.theme.colors.mainGray};
   transform: translateX(-50%);
