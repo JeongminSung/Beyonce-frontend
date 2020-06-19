@@ -4,29 +4,49 @@ import Header from "../../components/Header/Header";
 import ContentsTitle from "./ContentsTitle";
 import Work from "./Work";
 import SectionRight from "./SectionRight";
-import ContentFooter from "./ContentFooter";
+import Stat from "./Stat";
+import Summary from "./Summary";
+import Comment from "./Comment";
 import "./Contents.css";
 
 const Contents = (props) => {
+  const [data, setData] = useState([]);
+  const [owner, setOwner] = useState({});
+
+  useEffect(() => {
+    fetch("http://10.58.3.78:8000/feed/173")
+      .then((res) => res.json())
+      .then((res) => {
+        setData(res.data);
+        setOwner(res.data.owners[0]);
+      });
+  }, []);
+
+  console.log("bigD :", data);
+  console.log("own ", owner);
+
   return (
     <Wrap>
       <Header />
       <SectionWrap>
         <TitleWrap>
-          <ContentsTitle />
+          <ContentsTitle data={data} owner={owner} />
         </TitleWrap>
         <MainWrap>
           <WorkWrap>
-            <Work />
+            <Work data={data} />
           </WorkWrap>
           <RightWrap>
-            <SectionRight />
+            <SectionRight data={data} owner={owner} />
           </RightWrap>
         </MainWrap>
       </SectionWrap>
-      <FooterWrap>
-        <ContentFooter />
-      </FooterWrap>
+      <StatWrap>
+        <Stat data={data} owner={owner} />
+      </StatWrap>
+      <SummaryWrap>
+        <Summary data={data} owner={owner} />
+      </SummaryWrap>
     </Wrap>
   );
 };
@@ -61,11 +81,22 @@ const WorkWrap = styled.div`
 const RightWrap = styled.div`
   position: fixed;
   right: 5%;
+  z-index: 15;
 `;
 //position: fixed;
 
-const FooterWrap = styled.div`
+const StatWrap = styled.div`
   margin: 0 auto;
   width: 80%;
 `;
 //width: 80%;
+
+const SummaryWrap = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
+
+const CommentWrap = styled.div`
+  width: 80%;
+  margin: 0 auto;
+`;
