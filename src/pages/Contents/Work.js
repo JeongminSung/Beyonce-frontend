@@ -13,7 +13,12 @@ const Work = ({ data }) => {
   const createMarkup = () => {
     if (HTML) {
       return {
-        __html: HTML.split("\\n").join("").split("\\xc2\\xa8").join(""),
+        __html: HTML.split("b'")
+          .join("")
+          .split("\\n")
+          .join("")
+          .split("\\xc2\\xa8")
+          .join(""),
       };
     }
   };

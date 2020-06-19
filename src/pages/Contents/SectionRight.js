@@ -42,17 +42,19 @@ const SectionRight = ({ data, owner }) => {
           </TextWrap>
         </IconWrap>
         <FollowBallon fb={fb} owner={owner} data={data} />
-        <IconWrap
-          onMouseOver={() => setTb(true)}
-          onMouseLeave={() => setTb(false)}
-        >
-          <Imglink>
-            <ToolImg src={data.img_tool} alt="Tool" />
-          </Imglink>
-          <TextWrap>
-            <Text>Tools</Text>
-          </TextWrap>
-        </IconWrap>
+        {data.img_tool && (
+          <IconWrap
+            onMouseOver={() => setTb(true)}
+            onMouseLeave={() => setTb(false)}
+          >
+            <Imglink>
+              <ToolImg src={data.img_tool} alt="Tool" />
+            </Imglink>
+            <TextWrap>
+              <Text>Tools</Text>
+            </TextWrap>
+          </IconWrap>
+        )}
         <ToolBallon tb={tb} owner={owner} data={data} />
         <IconWrap
           onMouseOver={() => setSb(true)}

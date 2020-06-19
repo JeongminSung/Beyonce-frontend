@@ -19,6 +19,7 @@ const Contents = (props) => {
     fetch(`http://10.58.3.78:8000/feed/${num}`)
       .then((res) => res.json())
       .then((res) => {
+        console.log("ㅍㅇㄴㄹㅇ", res.data);
         setData(res.data);
         setOwner(res.data.owners[0]);
       });
