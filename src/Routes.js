@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Main from "./pages/Main/Main";
-import Login from "./pages/Mypage/Mypage";
+import Login from "./pages/Login/Login";
 import Contents from "./pages/Contents/Contents";
 import ForYou from "./pages/ForYou/ForYou";
 import Mypage from "./pages/Mypage/Mypage";
