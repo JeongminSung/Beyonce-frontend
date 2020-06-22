@@ -10,7 +10,7 @@ const Login = (props) => {
   const [img, setImg] = useState("");
 
   useEffect(() => {
-    fetch("http://localhost:3001/data/data.json")
+    fetch("http://localhost:3000/data/data.json")
       .then((res) => res.json())
       .then((res) => {
         setImg(

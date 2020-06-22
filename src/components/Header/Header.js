@@ -24,7 +24,7 @@ function Header({ history }) {
               For You
             </MainMenus>
             <MainMenus onClick={() => history.push("/")}>Discover</MainMenus>
-            <MainMenus onClick={() => history.push("/유저네임")}>
+            <MainMenus onClick={() => history.push("/mypage")}>
               Profile
             </MainMenus>
             <MainMenus
@@ -144,7 +144,7 @@ function Header({ history }) {
                 </g>
               </svg>
             </SubMenus>
-            <SubMenus onClick={() => history.push("/유저네임")}>
+            <SubMenus onClick={() => history.push("/mypage")}>
               <Profile src="https://mir-s3-cdn-cf.behance.net/user/115/38937534127641.57320518da535.jpg"></Profile>
             </SubMenus>
             <SubMenus>

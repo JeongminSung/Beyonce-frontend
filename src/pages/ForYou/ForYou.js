@@ -38,7 +38,7 @@ const ForYou = ({ history, clickFilter, match }) => {
 
   const getData = async () => {
     const response = await fetch(
-      `http://10.58.3.78:8000/feed/main/0?limit=${LIMIT}&offset=${offset}`
+      `http://10.58.3.78:8000/feed/main/37?limit=${LIMIT}&offset=${offset}`
     );
     const list = await response.json();
 
