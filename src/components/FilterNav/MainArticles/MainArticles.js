@@ -15,6 +15,10 @@ const MainArticles = ({ history, clickFilter, match }) => {
   useEffect(() => {
     getData();
     window.addEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    getFilterData();
   }, [clickFilter]);
 
   const handleScroll = () => {
@@ -37,12 +41,25 @@ const MainArticles = ({ history, clickFilter, match }) => {
   }, [isFetching]);
 
   const getData = async () => {
+    console.log("articleList", articleList);
     const response = await fetch(
-      `http://10.58.3.78:8000/feed/main/${clickFilter}?limit=${LIMIT}&offset=${offset}`
+      `http://10.58.3.78:8000/feed/main/37?limit=${LIMIT}&offset=${offset}`
     );
     const list = await response.json();
 
     setArticleList([...articleList, ...list.data.feeds]);
+    setTitles(list.data);
+    setIsFetching(false);
+  };
+
+  const getFilterData = async () => {
+    console.log("articleList", articleList);
+    const response = await fetch(
+      `http://10.58.3.78:8000/feed/main/${clickFilter}?limit=${LIMIT}&offset=${offset}`
+    );
+    const list = await response.json();
+    setOffset(0);
+    setArticleList(list.data.feeds);
     setTitles(list.data);
     setIsFetching(false);
   };
@@ -53,7 +70,10 @@ const MainArticles = ({ history, clickFilter, match }) => {
 
   return (
     <>
-      {/* {console.log("hoverId", hoverId)} */}
+      {/* {console.log(
+        "link",
+        `http://10.58.3.78:8000/feed/main/${clickFilter}?limit=${LIMIT}&offset=${offset}`
+      )} */}
       <ListTitleBlock>
         <ListTitleBox>
           <ListTitle>{titles.field}</ListTitle>
