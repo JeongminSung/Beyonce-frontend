@@ -1,68 +1,30 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# behance.net 클론프로젝트
 
-## Available Scripts
+- 2020.5.25-2020.6.5 (2주)
+- Github Repository
+- WeCode 8기 수강생들의 2차 2주 클론 프로젝트입니다. 3명의 개발자가 함께 협업했습니다. (2 Front-End, 1Back-End)
 
-In the project directory, you can run:
+>Demo
+https://youtu.be/G-K1Xp-wdJ0
 
-### `npm start`
+## 목표
+- behance.net 사이트의 interface와 동일하게 화면 구현하기.
+- Infinite 스크롤 구현
+- Infinite 슬라이더 구현
+- 사진 업로드 시 메인페이지에 노출
+- svg 아이콘 활용
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 기능
+- 카카오 API를 활용한 소셜로그인
+- 카카오 소셜로그인을 통해 사용자의 프로필사진 및 데이터 받기
+- Limit과 offset으로 한 번에 fetch 받는 데이터의 개 수 조절
+- URL 파라미터를 통해 스크롤이 바닥에 닿을 시 다음 데이터를 받아오는 무한 스크롤 구현
+- 배열을 조작해 버튼 클릭 시에도 데이터가 끊기지 않는 무한 슬라이더 구현
+- react hook를 활용 useState, useEffect 사용
+- styled-components를 이용한 글로벌 스타일링, 코드 난독화
+- InnerHTML 데이터로 실제 사이트와 똑같은 상세페이지 구현
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+## 사용한 기술
+- Front-End: ReactJS, hooks, styled-components
+- Back-End: Django, MySQL(Back-End Repository)
+- Deployment: AWS
