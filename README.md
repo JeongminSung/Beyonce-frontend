@@ -21,7 +21,7 @@ https://youtu.be/G-K1Xp-wdJ0
 - URL 파라미터를 통해 스크롤이 바닥에 닿을 시 다음 데이터를 받아오는 무한 스크롤 구현
 - 배열을 조작해 버튼 클릭 시에도 데이터가 끊기지 않는 무한 슬라이더 구현
 - react hook를 활용 useState, useEffect 사용
-- styled-components를 이용한 글로벌 스타일링, 코드 난독화
+- styled-components를 이용한 글로벌 스타일링 적용 
 - InnerHTML 데이터로 실제 사이트와 똑같은 상세페이지 구현
 
 ## 사용한 기술
