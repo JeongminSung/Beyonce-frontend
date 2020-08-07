@@ -4,8 +4,10 @@
 - Github Repository
 - WeCode 8기 수강생들의 2차 2주 클론 프로젝트입니다. 3명의 개발자가 함께 협업했습니다. (2 Front-End, 1Back-End)
 
->Demo
-https://youtu.be/G-K1Xp-wdJ0
+# Demo
+<a href="https://youtu.be/SYwS8Oii69w" target="_blank">
+<img src="https://i.ytimg.com/vi/G-K1Xp-wdJ0/original.jpg" width="400">
+</a>
 
 ## 목표
 - behance.net 사이트의 interface와 동일하게 화면 구현하기.
